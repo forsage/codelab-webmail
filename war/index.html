@@ -1,0 +1,187 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>Google App Engine: Code Lab Webmail</title>
+
+
+<link
+	href="http://www.gstatic.com/codesite/ph/17444577587916266307/css/ph_core.css"
+	rel="stylesheet" type="text/css" />
+<link href="http://code.google.com/css/codesite.pack.04102009.css"
+	rel="stylesheet" type="text/css" />
+<script language="javascript" src='script/jquery-1.6.min.js'></script>
+<script language="javascript" src='script/ajax.util.js'></script>
+</head>
+
+<body>
+
+
+<!-- content -->
+<div id="gc-pagecontent">
+<h1 class="page_title">Code Lab Webmail</h1>
+
+<!-- tabs -->
+<div id="tabs" class="gtb"><a id="home" href="#home" class="tab">Home</a>
+<a id="inbox" href="#inbox" class="tab">Inbox</a> <a id="sent"
+	href="#sent" class="tab">Sent</a>
+<div class="gtbc"></div>
+</div>
+<!-- home page content -->
+<div class="g-unit" id="home-tab">
+<h2 class="page_title" style="margin: 0px 12px !important;">Webmail</h2>
+<h3 id="homeMessage"></h3>
+<div id="loginPage">
+<div id="jd-content">
+<div>
+<table width="200" border="0" style="border: none !important;"
+	cellspacing="0" cellpadding="0">
+	<tr style="border: none !important;">
+		<td width="148" nowrap="nowrap" style="border: none !important;"><b>User
+		name</b></td>
+		<td width="52" style="border: none !important;"><input
+			type="text" style="width: 185px;" maxlength="2048" id="username"
+			name="username" /></td>
+	</tr>
+	<tr style="border: none !important;">
+		<td nowrap="nowrap" style="border: none !important;">&nbsp;</td>
+		<td style="border: none !important;">
+		<div style="padding-bottom: 3px;"><input type="button"
+			style="width: 66px;" title="List" value="Login" id="loginBtn"
+			onclick="login()" /></div>
+		</td>
+	</tr>
+</table>
+</div>
+</div>
+</div>
+<div id="logoutPage" style="display: none;">
+<div id="jd-content">
+<div>
+<table width="200" border="0" style="border: none !important;"
+	cellspacing="0" cellpadding="0">
+	<tr style="border: none !important;">
+		<td nowrap="nowrap" style="border: none !important;">&nbsp;</td>
+		<td style="border: none !important;">
+		<div style="padding-bottom: 3px;"><input type="button"
+			style="width: 66px;" title="List" value="Logout" id="logoutBtn"
+			onclick="logout()" /></div>
+		</td>
+	</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<!-- ******************************************* inbox ******************************************* -->
+<div class="g-unit" id="inbox-tab">
+<div class="message" id="inbox-show-message" style="display: none">
+</div>
+<!-- search container -->
+<div class="gsc-search-box" id="inbox-search-ctr"><!-- section title -->
+<h2>Inbox (mails sent to me)</h2>
+<form name="inbox-search-form" id="inbox-search-form"><label>Subject</label>
+<!--   	 		<input type="text" name="q" id="q" class="gsc-input"/> --> <!--	   	    <input type="button" value="Search" onclick="search('inbox')" class="gsc-search-button" />-->
+<input type="button" value="Send mail" onclick="add('inbox')"
+	class="gsc-search-button" /> <input type="reset"
+	id="inbox-search-reset" class="cancel" title="Reset" value="Reset"
+	style="visibility: hidden" /></form>
+</div>
+<!-- list container -->
+<div class="results" style="border: 0;" id="inbox-list-ctr">
+<table width="100%" cellspacing="0" cellpadding="2" border="0"
+	style="border-collapse: collapse;">
+	<thead>
+		<tr>
+			<th scope="col">Recipient</th>
+			<th scope="col">Subject</th>
+			<th scope="col">Body (first 100 characters)</th>
+			<th scope="col">Received on</th>
+			<th scope="col">Action</th>
+		</tr>
+	</thead>
+	<tbody id="inbox-list-tbody"></tbody>
+</table>
+</div>
+<div class="create-ctr" id="inbox-create-ctr">
+<h2>Send mail</h2>
+<form name="inbox-create-form" id="inbox-create-form">
+<table width="200" cellspacing="0" cellpadding="0">
+	<tbody>
+		<tr>
+			<td>Recipient</td>
+			<td><span class="readonly"><input type="text"
+				style="width: 185px;" autocomplete="off" class="gsc-input"
+				maxlength="2048" name="recipient" id="recipient" /></span></td>
+		</tr>
+
+		<tr>
+			<td>Subject</td>
+			<td><input type="text" style="width: 185px;" autocomplete="off"
+				class="gsc-input" maxlength="2048" name="subject" id="subject" /></td>
+		</tr>
+		<tr>
+			<td>Body (first 100 characters)</td>
+			<td><input type="textarea" style="width: 185px;"
+				autocomplete="off" class="gsc-input" maxlength="2048" name="body"
+				id="body" /></td>
+		</tr>
+		<tr>
+			<td>&nbsp;</td>
+			<td><input type="button" class="save" title="Send" value="Send"
+				onclick="formValidate('inbox')" /> <input type="button"
+				class="cancel" title="Cancel" value="Cancel"
+				onclick="cancel('inbox')" /> <input type="reset"
+				id="customer-reset" class="cancel" title="Reset" value="Reset"
+				style="visibility: hidden" /></td>
+		</tr>
+	</tbody>
+</table>
+</form>
+</div>
+
+</div>
+
+
+<!-- ******************************************* sent ******************************************* -->
+<div class="g-unit" id="sent-tab">
+<div class="message" id="sent-show-message" style="display: none">
+</div>
+<!-- search container -->
+<div class="gsc-search-box" id="sent-search-ctr"><!-- section title -->
+<h2>Sent items (mails sent by me)</h2>
+<form name="sent-search-form" id="sent-search-form"><label>Subject</label>
+<input type="text" name="q" id="q" class="gsc-input" /> <input
+	type="button" value="Search" onclick="search('sent')"
+	class="gsc-search-button" /> <input type="reset"
+	id="sent-search-reset" class="cancel" title="Reset" value="Reset"
+	style="visibility: hidden" /></form>
+</div>
+<!-- list container -->
+<div class="results" style="border: 0;" id="sent-list-ctr">
+<table width="100%" cellspacing="0" cellpadding="2" border="0"
+	style="border-collapse: collapse;">
+	<thead>
+		<tr>
+			<th scope="col">Recipient</th>
+			<th scope="col">Subject</th>
+			<th scope="col">Body (first 100 characters)</th>
+			<th scope="col">Sent on</th>
+			<th scope="col">Action</th>
+		</tr>
+	</thead>
+	<tbody id="sent-list-tbody"></tbody>
+</table>
+</div>
+</div>
+
+<script type="text/javascript">
+
+ $(window).load(function () {
+   init();
+});
+
+</script>
+</body>
+</html>

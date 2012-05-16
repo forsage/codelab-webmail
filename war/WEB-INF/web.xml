@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+	<servlet>
+		<servlet-name>InboxServlet</servlet-name>
+		<servlet-class>com.google.appengine.webmail.InboxServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>InboxServlet</servlet-name>
+		<url-pattern>/inbox</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>SentServlet</servlet-name>
+		<servlet-class>com.google.appengine.webmail.SentServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SentServlet</servlet-name>
+		<url-pattern>/sent</url-pattern>
+	</servlet-mapping>
+    <servlet>
+       <servlet-name>HomeServlet</servlet-name>
+       <servlet-class>com.google.appengine.webmail.HomeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+       <servlet-name>HomeServlet</servlet-name>
+       <url-pattern>/home</url-pattern>
+    </servlet-mapping>
+	<welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+	</welcome-file-list>
+</web-app>
